@@ -1,0 +1,149 @@
+Você é um expert em programação de websites, um fullstack e me ajudará a criar um sistema web(Dashboard/Formularios/raletórios(Tabelas, cards e gráficos)),
+Vamos criar um sistema PWA/SPA para controle de gestão de uma avícola de postura, o sistema se chamará "PosturAves - Controle avícola", utilizaremos o UI Kit Tabler(https://tabler.io/) para criar os componentes, o sistema será mobile first, terá página de login, navbar(responsiva) e a página central(index dinâmico)... As páginas internas serão geradas por arquivos javascript onde cada página deverá ser composta por suas funções específicas e seus htmls... Funções de uso comum como formatação de tabelas, datas, mascaras e etc, deverão ser alocadas em outro arquivo e serão importados por suas páginas.
+
+Também vamos criar um arquivo de configuração de variáveis do sistema.
+
+Utilizaremos NextJS/NopdeJS/MongoDB
+
+Por onde você sugere começarmos. Vamos configurar o vscode e depois fazer a configuração do servidor e testar?
+
+
+A relação básica de formulários que imaginei foi essa abaixo;
+CADASTROS SIMPLES
+- FUNCIONÁRIOS
+  - Nome,
+  - CPF,
+  - Apelido,
+  - Nascimento,
+  - Data Admissão,
+  - Cargo,
+  - Salário Carteira,
+  - Salário Família,
+  - Quinquênio,
+  - Extras
+  - $ Diária (Granja),
+  - Perfil ['Admin', 'Aviarista', 'Gerente', 'Estoquista', 'Proprietário']
+  - Login
+  - Senha
+  - Situação ['DEMITIDO', 'AFASTADO', 'ATIVO']
+  - Data Situação,
+
+- LOTES (São os centros de custos da empresa)
+  - Status ['ATIVO', 'INATIVO']
+  - Lote (formato 'aa000000')
+  - Setor/Alojamento  ['PINTEIRO', 'RECRIA', '01', '02', '03', '04', '05'] (O lote pode sofrer alteração de Alojamento diversas vezes durante sua vida, precisamos registrar essas mudanças)
+  - Linhagem
+  - Proprietário ['Bruno', 'Carlos', 'Alex']
+  - Nascimento
+  - Quantidade
+  - Ração (conectado de RAÇÃO.descrição) (A composição da ração pode variar de ingredientes e esses ingredientes podem variar de custos, preçisaremos ter histórico desses valores para saber ao longo do tempo o custo da ração)
+
+- FORNECEDORES
+  - Nome
+  - Representante
+  - Contato
+
+- PRODUTO (Nossa produção)
+  - Data
+  - Descrição ['ADUBO', 'JUMBÃO', 'JUMBO', 'EXTRA', 'A', 'B', 'C', 'TRINCADO']
+  - Preço (Esse preço deverá ter um histórico, pois pode sofrer mudanças todos os dias e precisamos ter gráficos histórico de preços)
+
+- CALENDÁRIO/AGENDA
+  - Data
+  - Responsável (Funcionário)
+  - Tipo do compromisso ['Vacina', 'Pesagem', 'Censo', 'Mudança', 'Dedetização', 'Tarefa']
+  - Descrição
+  - Lote (de LOTES.Lote)
+  - Observação
+  - Status ['Pendente', 'Iniciado', 'Finalizado']
+
+
+CADASTROS COMPOSTOS
+- PRODUÇÃO
+  - Data
+  - Observações
+    TABELA DE CONSUMO/MORTALIDADE
+      - Galpão (de LOTES.galpão)
+      - Ração (de LOTES.Ração)
+      - Ração/Estoque Inicial (= estoque final do dia anterior)
+      - Ração/Consumo
+      - Ração/Reposição
+      - Mortalidade
+    TABELA DE PRODUÇÃO
+      - Galpão (de LOTES.galpão)
+      - Produto (de PRODUTO.descrição)
+    TABELA DE INTERVENÇÕES
+      - Galpão (de LOTES.galpão)
+      - Tipo ['Vacina', 'Pesagem', 'Censo', 'Mudança', 'Dedetização']
+      - Descrição
+      - Quantidade
+
+- RAÇÃO
+  - Data
+  - Descrição
+  - Responsável
+    TABELA DE COMPOSIÇÃO
+    - Produto/Insumo
+    - Quantidade
+    - Preço (de FINANCEIRO.preço)
+    - Total
+
+- CLASSIFICAÇÃO
+  - Data
+    TABELA DE CLASSIFICAÇÕES
+      - Galpão (de LOTES.galpão)
+      - Produto
+      - Quantidade
+
+- FINANCEIRO/VENDAS
+  - Data
+  - Tipo ['RECEITA', 'DESPESA']
+  - Nota
+  - Fornecedor/Cliente
+  - Categoria
+  - Subcategoria
+  - Observação
+    TABELA DE PRODUTOS/SERVIÇOS
+      - Produto
+      - Preço
+      - Total
+      - Centro de Custo (de LOTES.lote)
+    TABELA DE PAGAMENTO
+      - Data/Vencimento
+      - Valor
+      - Pago? (Checkbox)
+
+
+RELATÓRIOS & GRÁFICOS 
+ - PRODUÇÃO 
+  - Filtros de produtos, lote, intervalos
+  - Agregações de Soma, média
+  - Comparativos (Atual x valores Padrão)
+ - ESTOQUES
+  - Atual, mínimo, ponto de pedido, Follow-UP
+
+DASHBOARD (Página de entrada)
+  - Produção (recente x média(últimos 3, 5, 10 dias, semana, idade padrão))
+  - Produtividade (recente x média(últimos 3, 5, 10 dias, semana, idade padrão))
+  - Custos de produção (Gráfico)
+  - Mortalidade (Gráficos)
+  - Financeiro (Gráficos)
+  - Preços (Gráficos)
+  - Agendas (Financeiro, Atividades)
+  - Outros modelos que iremos pensar.
+
+Todas as páginas de CADASTROS SIMPLES, terão o seguinte modelo;
+  - Tabela com cabeçalho que ao clickar colocará a tabela na ordem crescente ou decrescente com base no título clickado,
+  - Ao clikar nas linhas, abri-se um modal com os dados em modo leitura(Disabled readonly input), apenas com o  botão ao centro com o nome editar, em sendo clickado aparece outros 2 botões, salvar e excluir.
+
+Todas as páginas de CADASTROS COMPOSTOS, terão o seguinte modelo;
+  - Tabela de accordions organizado por ordem decrescente, tendo em sue títulos data e algumas informações que irão variar de acordo com o tipo, com os dados em modo leitura(Disabled readonly input), apenas com o botão ao centro com o nome editar, em sendo clickado aparece outros 2 botões, salvar e excluir.
+
+Os relatórios e gráficos preciso de sua ajuda para pensar na estética e operação.
+
+
+Criaremos uma página de logins, o login ficará o storage e deverá "vencer" 4 horas após o último acesso.
+
+O sistema terá de acesso por perfil
+
+Inicialmente crie a base de dados e as páginas com dados ficticios, pelo menos 20 itens para cada cadastro e vamos alterando por etapas, o que acha?

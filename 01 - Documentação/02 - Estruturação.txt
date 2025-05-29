@@ -1,0 +1,285 @@
+
+********************************************************************
+1ª ETAPA DE PERGUNTAS
+********************************************************************
+1. Sobre o Propósito e Objetivos do Dashboard:
+
+Qual é o principal objetivo deste dashboard?
+Controlar a gestão de uma granja de postura Avícola,
+
+Que problema ele visa resolver ou que processo ele visa otimizar?
+Acompanhar relatórios de produção, comparando-os com os padrões da linhagem, analisar a gestão financeira, estoques, mão de obra.
+
+Quem são os principais usuários do dashboard? (Ex: gestores, analistas, equipe de vendas, clientes, etc.)
+Gestores
+
+Quais as informações mais críticas que os usuários precisam ver de imediato ao acessar o dashboard?
+Comparativos da atual x padrão de consumo, produção, além de saúde financeira(contas a pagar, analise de lotes/centros de custo), calendário de intervenções(vacinas/censo/pesagem, etc) e de manutenções e etc. um checklist geral.
+
+Quais decisões os usuários tomarão com base nos dados apresentados neste dashboard?
+Pagamentos, compra de mercadorias, intervenções urgentes, analise de rações
+
+Existe algum sistema ou processo atual que este dashboard substituirá ou complementará?
+Não,
+
+
+2. Sobre as Funcionalidades Principais:
+Formulários:
+Quais são os principais formulários que precisaremos criar?
+Formmularios simples(Colaboradores, lotes, Fornecedores, Nossos produtos)
+Formularios compostos(Produção, Financeiro, ração, classficação ) Os formulário composto são formulário compostos por cabeçalho, e tabelas internas
+Calendário/agenda/To-do
+
+
+Para cada formulário, quais campos são essenciais? (Ex: nome, e-mail, data, valor, tipo, etc.)
+CADASTROS SIMPLES
+- FUNCIONÁRIOS
+  - Nome,
+  - CPF,
+  - Apelido,
+  - Nascimento,
+  - Data Admissão,
+  - Cargo,
+  - Salário Carteira,
+  - Salário Família,
+  - Quinquênio,
+  - Extras
+  - $ Diária (Granja),
+  - Perfil ['Admin', 'Aviarista', 'Gerente', 'Estoquista', 'Proprietário']
+  - Login
+  - Senha
+  - Situação ['DEMITIDO', 'AFASTADO', 'ATIVO']
+  - Observação
+
+- LOTES (São os centros de custos da empresa)
+  - Status ['ATIVO', 'INATIVO']
+  - Lote (formato 'aa000000')
+  - Setor/Alojamento  ['PINTEIRO', 'RECRIA', '01', '02', '03', '04', '05'] (O lote pode sofrer alteração de Alojamento diversas vezes durante sua vida, precisamos registrar essas mudanças)
+  - Linhagem
+  - Proprietário ['Bruno', 'Carlos', 'Alex']
+  - Nascimento
+  - Quantidade
+  - Ração (conectado de RAÇÃO.descrição) (A composição da ração pode variar de ingredientes e esses ingredientes podem variar de custos, preçisaremos ter histórico desses valores para saber ao longo do tempo o custo da ração)
+
+- FORNECEDORES
+  - Nome
+  - Representante
+  - Contato
+
+- PRODUTO (Nossa produção)
+  - Data
+  - Descrição ['ADUBO', 'JUMBÃO', 'JUMBO', 'EXTRA', 'A', 'B', 'C', 'TRINCADO']
+  - Preço (Esse preço deverá ter um histórico, pois pode sofrer mudanças todos os dias e precisamos ter gráficos histórico de preços)
+
+- CALENDÁRIO/AGENDA
+  - Data
+  - Responsável (Funcionário)
+  - Tipo do compromisso ['Vacina', 'Pesagem', 'Censo', 'Mudança', 'Dedetização', 'Tarefa']
+  - Descrição
+  - Lote (de LOTES.Lote)
+  - Observação
+  - Status ['Pendente', 'Iniciado', 'Finalizado']
+
+
+CADASTROS COMPOSTOS
+- PRODUÇÃO
+  - Data
+  - Observações
+    TABELA DE CONSUMO/MORTALIDADE
+      - Galpão (de LOTES.galpão)
+      - Ração (de LOTES.Ração)
+      - Ração/Estoque Inicial (= estoque final do dia anterior)
+      - Ração/Consumo
+      - Ração/Reposição
+      - Mortalidade
+    TABELA DE PRODUÇÃO
+      - Galpão (de LOTES.galpão)
+      - Produto (de PRODUTO.descrição)
+    TABELA DE INTERVENÇÕES
+      - Galpão (de LOTES.galpão)
+      - Tipo ['Vacina', 'Pesagem', 'Censo', 'Mudança', 'Dedetização']
+      - Descrição
+      - Quantidade
+
+- RAÇÃO
+  - Data
+  - Descrição
+  - Responsável
+    TABELA DE COMPOSIÇÃO
+    - Produto/Insumo
+    - Quantidade
+    - Preço (de FINANCEIRO.preço)
+    - Total
+
+- CLASSIFICAÇÃO
+  - Data
+    TABELA DE CLASSIFICAÇÕES
+      - Galpão (de LOTES.galpão)
+      - Produto
+      - Quantidade
+
+- FINANCEIRO/VENDAS
+  - Data
+  - Tipo ['RECEITA', 'DESPESA']
+  - Nota
+  - Fornecedor/Cliente
+  - Categoria
+  - Subcategoria
+  - Observação
+    TABELA DE PRODUTOS/SERVIÇOS
+      - Produto
+      - Preço
+      - Total
+      - Centro de Custo (de LOTES.lote)
+    TABELA DE PAGAMENTO
+      - Data/Vencimento
+      - Valor
+      - Pago? (Checkbox)
+
+Há alguma regra de validação específica ou complexa para esses campos?
+Sim, os campos de lote serão os centros de custo, precisamos ter histórico de preços, intervenções, produção, mortalidade... tudo... tudo relacionado ao lote temos que ter histórico.
+
+Tabelas:
+Que tipos de dados serão exibidos em formato de tabela?
+Variados, serão os registros cadastrados pelos formulários, algumas tabelas terão tabelas internas(EX: Financeiro, produção)
+
+Quais colunas são importantes para cada tabela?
+Vamos criar um objeto para cada formulário onde configuraremos os componentes e coluna das tabelas.
+
+Precisaremos de funcionalidades como ordenação por coluna, busca/filtro nos dados da tabela, e paginação para grandes volumes de dados?
+Sim, 
+
+Os dados nas tabelas precisarão ser exportados (ex: para CSV, Excel)?
+Sim,
+
+Gráficos:
+Que tipos de insights visuais você espera obter com os gráficos? (Ex: tendências ao longo do tempo, comparação entre categorias, distribuição percentual, etc.)
+Comparações e acompanhamento entre dados reais da produção e uma tabelas de dados padrões(que será alimentado via importação de tabela.)
+
+Quais métricas chave serão visualizadas em gráficos?
+Produção/produtividade/consumo/custo unitário
+
+Você tem preferência por tipos específicos de gráficos para certas informações (ex: gráfico de linhas para vendas mensais, gráfico de pizza para market share)?
+Linhas e pizza.
+
+
+3. Sobre Dados e Integrações:
+
+De onde virão os dados que alimentarão o dashboard (formulários, tabelas e gráficos)? (Ex: inserção manual, banco de dados existente, planilhas, API externa, etc.)
+Tenho uma planilha, precisaremos importar os dados existentes, em seguida iremos continuar a alimentação das bases via formlários que estaremos criando
+
+Com que frequência esses dados são atualizados? A atualização no dashboard precisa ser em tempo real ou pode ser periódica?
+Os dados são alimentado constantemente, o dashboard precisa estar atualizado em tempo real.
+
+
+********************************************************************
+2ª ETAPA DE PERGUNTAS
+********************************************************************
+
+1. Modelagem de Dados e Histórico (Detalhes Cruciais):
+
+Histórico de Preços/Custos:
+No cadastro de "Nossos Produtos", o preço tem histórico. Quando você gerar um relatório financeiro de vendas de um período passado, o sistema deve usar o preço do produto que estava vigente na data da venda ou o preço atual do produto?
+Informaremos o preço na data virgente e o atual, o usuário escolherá.
+
+Similarmente para a "Ração": o custo da ração varia conforme os insumos. Ao analisar o custo de produção de um lote em um período passado, devemos usar o custo da composição da ração que estava vigente naquele período? Isso implica que, ao cadastrar o consumo de ração diário, precisamos registrar não só a quantidade, mas também qual "versão/lote de fabricação" da ração foi consumida, para atrelar ao custo correto daquele momento. Confirma?
+Exatamente
+
+Lotes e Mudança de Alojamento:
+Quando um lote muda de "Setor/Alojamento" (ex: do Pinteiro para a Recria), como isso afeta os relatórios de produção ou consumo? Devemos sempre considerar o alojamento atual do lote, ou para relatórios de um período específico, precisamos saber em qual alojamento ele estava naquele período? (Isso reforça a necessidade de uma tabela de histórico de alojamento para os lotes).
+Precisaremos saber em que alojamento estava naquele dia ou idade.
+
+
+Ração do Lote:
+No cadastro de "LOTES", o campo "Ração" se refere ao tipo de ração que o lote consome (ex: Ração Crescimento Fase 1, Ração Postura Fase 2)? Se sim, e a composição dessa descrição de ração muda (gerando um novo custo), como o sistema deve entender qual "versão de custo" daquela ração foi consumida pelo lote em um determinado dia?
+Podemos salvar na tabela de consumo, qual ração foi consumida pelo lote naquele dia e o custo do dia dela. Dessa forma se eu mudar o preço de um produto que impactar no valor da ração o valor que estava no dia anterior estará guardado.
+
+
+2. Formulários Compostos e Interação:
+
+Tabelas Internas (Grids Aninhadas):
+Nos formulários como "PRODUÇÃO" ou "FINANCEIRO/VENDAS", ao adicionar linhas nas tabelas internas (ex: adicionar múltiplos itens de consumo para diferentes galpões no mesmo lançamento de produção, ou múltiplos produtos/serviços em uma única nota fiscal), como você imagina a interface? O usuário adiciona uma linha de cada vez, preenche e salva, ou pode adicionar várias linhas e salvar tudo de uma vez com o formulário principal?
+Várias linhas de uma vez,
+
+Haverá um limite prático de linhas nessas tabelas internas por formulário?
+Não,
+
+Edição de Dados Compostos: Ao editar um lançamento de "PRODUÇÃO", por exemplo, o usuário poderá adicionar novas linhas às tabelas internas, editar linhas existentes e excluir linhas?
+Sim, é primordial
+
+
+3. Dashboard e "Tempo Real":
+Quando você menciona "atualizado em tempo real", para o contexto de PHP e JavaScript puro, a abordagem mais comum seria o frontend (JavaScript) fazer requisições periódicas curtas (polling) ao backend PHP para buscar novos dados e atualizar as seções do dashboard. Uma alternativa mais complexa seria WebSockets (que geralmente requer um servidor de backend mais persistente que o modelo tradicional do PHP com XAMPP).
+Um polling a cada, por exemplo, 30 segundos ou 1 minuto para atualizar os principais indicadores do dashboard seria suficiente? Ou a necessidade é mais imediata, como em um chat?
+Pode ser a cada 30 segundos
+
+4. PWA e Funcionalidade Offline:
+Para o PWA, qual seria o cenário de uso offline mais importante?
+Opção A (Mais Simples): Poder consultar dados que foram carregados quando o usuário estava online (ex: visualizar o último estado do dashboard, listas de lotes, etc.).
+Opção B (Mais Complexa): Poder registrar novos dados (ex: lançar mortalidade diária, consumo de ração) mesmo estando offline, para que esses dados sejam enviados ao servidor quando a conexão for restabelecida.
+A Opção B requer uma lógica robusta de armazenamento local (IndexedDB) e sincronização, incluindo tratamento de conflitos.
+Opção A, só preciso visualizar gráficos, tabelas e relatórios.
+
+5. "Padrões da Linhagem" para Comparação:
+Esses dados padrão da linhagem (ex: consumo esperado de ração por ave/dia na semana X, percentual de postura esperado na semana Y) são fixos por linhagem ou podem variar?
+São fixos, uma tabela que iremos alimentar direto na base, via importação.
+Como você imagina a estrutura desses dados? Seria uma tabela onde você cadastra, para cada linhagem e para cada semana de vida da ave, os valores padrão de consumo, produção, peso, etc.?
+Uma tabela csv com as seguintes colunas LINHAGEM	FASE	IDADE	PRODUTIVIDADE	PESO DO OVO (KG)	MASSA DE OVO POR DIA (KG)	CONSUMO DE RAÇÃO POR DIA (KG/AVE)	CONVERSÃO DE RAÇÃO POR SEMANA (KG/KG)	OVOS AVE ALOJADA	MASSA DE OVO ACUM. (KG)	CONSUMO DE RAÇÃO ACUM. (KG)	CONVERSÃO ALIMENTAR ACUM. (KG/KG)	VIABILIDADE (%)	PESO CORPORAL (KG)	RAÇÃO
+
+6. Prioridades de Desenvolvimento:
+
+Entendendo a complexidade, qual seria a ordem de prioridade para desenvolver os módulos/funcionalidades? Minha sugestão inicial seria:
+Cadastros Base (Lotes, Produtos com histórico de preço, Fornecedores, Funcionários).
+Módulo de Ração (Cadastro da composição e cálculo de custo com histórico).
+Módulo de Produção (Lançamentos diários de consumo, mortalidade, produção).
+Módulo Financeiro (Lançamentos de Receitas e Despesas).
+Dashboard Inicial (com os primeiros gráficos e indicadores baseados nos módulos acima).
+Calendário/Agenda.
+Classificação de Ovos.
+Funcionalidades de Exportação e Relatórios Avançados.
+PWA.
+Essa ordem faz sentido para você, ou há alguma outra necessidade mais urgente?
+Faz sim, podemos seguir dessa forma
+
+7. Fluxos de Trabalho e Interface:
+
+Lançamentos Diários: No dia a dia, o lançamento de "PRODUÇÃO" (consumo, mortalidade, ovos) é feito por galpão ou é um lançamento geral para o lote, e o sistema assume que se aplica a todos os galpões ativos daquele lote? (A sua estrutura da tabela de consumo/mortalidade sugere que é por galpão, o que é bom para detalhamento).
+Sim por galpão, cada galpão tem 1 lote... O lote é o "nome" que a galinha recebe quando chega na granja, ela passa pelos alojamentos(pela idade) e toda produção, intervenção, custos tem um centro de custo atrelado a ela. para sabermso exatamente quanto dá de retorno aquela galinha de nome "lote tal"
+
+Checklist Geral no Dashboard: O que exatamente você imagina nesse "checklist geral"? Seriam lembretes do calendário, tarefas pendentes, ou algo mais?
+Isso e mais importante, gráficos de conusmo, produção, e financeiro para quye possa acompanhar se os lotes estão performando corretamente
+
+
+Os formulário serão integrados a lista de registros, no cabeçalho de identificação dos registros podemos criar um botão/troggle que quando clikadoi ele abre o formulário... As linhas dos registros deverão ser clickaveis, de forma que se alguma forma clickada ela chama o formulário com todos os elementos desabilitados, o usuário clicka em um botão editar e pode editar o registro ou excluir.
+
+Todos as as páginas deverão ter em seu início objetos para configurações de itens dropdow(os que não forem dinâmicos), cores de badged, nomes, enfim, constantes e variáveis, quero quye as páginas sejam o mais editaveis possiveis por meio destes objetos.
+
+********************************************************************
+3ª ETAPA DE PERGUNTAS
+********************************************************************
+
+Layout e Conteúdo do Dashboard Principal:
+
+Você mencionou que as informações críticas a serem vistas de imediato são: Comparativos da atual x padrão de consumo, produção, saúde financeira (contas a pagar, análise de lotes/centros de custo), calendário de intervenções, e o "checklist geral" com gráficos de consumo, produção e financeiro.
+Você tem alguma ideia inicial de como gostaria de ver esses elementos dispostos na tela principal do dashboard? Por exemplo:
+Gráficos principais ocupando a maior parte?
+Penso em cards na parte superior com resumos de cada lote;
+EX: Para o aviário 01 que hoje está o lote AL082023. teremos um card com alojamento/lote, idade atual, quantidade de aves, consumo atual x padrão, produção, média x padrão... Um cada cada alojamento ativo(Com lote ativo.) Abaixo teriamos os calendário de contas a pagar, intervenções, To-do, estoques de ração. e mais abaixo tabelas de resumos, seria uma melhor apresentação do mesmo dado que tem os cardas, mas a coluna da esquerda seriam os lotes e as colunas seriam os dados detalhados.
+Em resumo teremos cards/modulos separados no dashboard principal.
+
+Não precisamos de um design detalhado agora, mas uma noção geral do layout ajudaria muito.
+Interface dos Formulários Compostos (com Tabelas Internas):
+
+Para formulários como "Produção" ou "Financeiro", onde teremos tabelas internas para lançar múltiplos itens (ex: consumo por galpão, itens de uma nota fiscal):
+Visualmente, como você imagina a adição e edição dessas linhas? O Tabler.io oferece componentes como "cards" e tabelas que podemos usar. Minha ideia seria ter um botão "Adicionar Item" abaixo da tabela interna que insere uma nova linha editável, ou talvez um pequeno formulário separado para adicionar cada item à tabela.
+Faça dessa forma e vamso testar.
+
+Como você gostaria que os totais (ex: total da nota fiscal, total de ração consumida) fossem atualizados à medida que os itens são adicionados/editados nessas tabelas internas, antes mesmo de salvar o formulário principal? (Isso seria feito com JavaScript).
+Sim, exatamente e sempre. Inclusive no caso de cadastros financeiros temos que colocar as mascaras e verificações;
+EX: soma das parcelas é o mesmo valor do valor total dos produtos.
+
+
+
+
+
+
