@@ -1,42 +1,25 @@
+/* src/app/globals.css */
 :root {
-  --background: #ffffff;
-  --foreground: #171717;
-}
+  /* Reduz o tamanho da fonte base do corpo do Bootstrap. O padrão é 1rem. */
+  --bs-body-font-size: 0.875rem; /* Isso equivale a 14px se a base do navegador for 16px */
 
-@media (prefers-color-scheme: dark) {
-  :root {
-    --background: #0a0a0a;
-    --foreground: #ededed;
-  }
-}
+  /* Podemos também ajustar a altura da linha base, se necessário */
+  --bs-body-line-height: 1.4;
 
-html,
-body {
-  max-width: 100vw;
-  overflow-x: hidden;
+  /* Reduzindo o padding padrão de alguns componentes Bootstrap globalmente (opcional) */
+  /* --bs-card-spacer-y: 0.8rem; /* Padrão é 1rem */
+  /* --bs-card-spacer-x: 0.8rem; /* Padrão é 1rem */
+  /* --bs-nav-link-padding-y: 0.4rem; /* Padrão é 0.5rem */
 }
 
 body {
-  color: var(--foreground);
-  background: var(--background);
-  font-family: Arial, Helvetica, sans-serif;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
-}
-
-* {
-  box-sizing: border-box;
-  padding: 0;
   margin: 0;
 }
 
-a {
-  color: inherit;
-  text-decoration: none;
+.logoTextPostur {
+  color: #375181; /* Cor azul claro exemplo para "Postur" */
 }
 
-@media (prefers-color-scheme: dark) {
-  html {
-    color-scheme: dark;
-  }
+.logoTextAves {
+  color: #f8bb49; /* Cor branca/cinza claro exemplo para "Aves" */
 }

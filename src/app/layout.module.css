@@ -1,0 +1,29 @@
+/* src/app/layout.module.css */
+.mainContent {
+  padding: 15px; /* Reduzido de 20px */
+  transition: margin-left 0.3s ease-in-out, padding-top 0.3s ease-in-out;
+}
+
+@media (min-width: 768px) {
+  .mainContent {
+    margin-left: 240px; /* Ajustado para a nova largura do sidebar (se você mudou em Sidebar.module.css) */
+  }
+}
+
+@media (max-width: 767.98px) {
+  .mainContent {
+    margin-left: 0;
+  }
+}
+
+/* Backdrop para escurecer o fundo quando o sidebar mobile estiver aberto */
+.backdrop {
+  position: fixed; /* Fixo para cobrir toda a tela */
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(0, 0, 0, 0.5); /* Cor preta semitransparente */
+  z-index: 1025; /* Deve ficar abaixo do sidebar (1030) mas acima do conteúdo principal */
+  /* A visibilidade do backdrop será controlada via JS no RootLayout */
+}

@@ -1,0 +1,55 @@
+/* src/components/Sidebar/Sidebar.module.css */
+.sidebar {
+  width: 240px; /* Podemos reduzir um pouco a largura se desejar, ex: 240px */
+  min-height: 100vh;
+  position: fixed;
+  top: 0;
+  left: 0;
+  z-index: 1030;
+  box-shadow: 2px 0 5px rgba(0, 0, 0, 0.1);
+  transition: transform 0.3s ease-in-out;
+}
+
+.sidebarHeader {
+  border-bottom: 1px solid rgba(255, 255, 255, 0.15);
+  padding-top: 0.75rem; /* Reduzido de py-4 (1.5rem) */
+  padding-bottom: 0.75rem; /* Reduzido de py-4 (1.5rem) */
+}
+
+.sidebarFooter {
+  border-top: 1px solid rgba(255, 255, 255, 0.15);
+  padding-top: 0.75rem; /* Reduzido de py-3 (1rem) */
+  padding-bottom: 0.75rem; /* Reduzido de py-3 (1rem) */
+}
+
+.sidebar .navLink {
+  border-radius: 0.3rem;
+  color: rgba(255, 255, 255, 0.8);
+  margin-bottom: 0.15rem; /* Reduzido de 0.25rem */
+  padding-top: 0.4rem; /* Reduzido para espaçamento vertical menor nos links */
+  padding-bottom: 0.4rem; /* Reduzido para espaçamento vertical menor nos links */
+  font-size: 0.875rem; /* Tamanho da fonte dos links do menu, se --bs-body-font-size não for suficiente */
+  transition: background-color 0.2s ease-in-out, color 0.2s ease-in-out;
+}
+
+.sidebar .navLink:hover {
+  background-color: rgba(255, 255, 255, 0.1);
+  color: #ffffff;
+}
+
+.sidebarIsClosedForMobile {
+  transform: translateX(-100%);
+}
+.sidebarIsOpenForMobile {
+  transform: translateX(0);
+}
+
+@media (min-width: 768px) {
+  .sidebar {
+    transform: translateX(0) !important;
+  }
+  .sidebarIsClosedForMobile,
+  .sidebarIsOpenForMobile {
+    transform: translateX(0);
+  }
+}
