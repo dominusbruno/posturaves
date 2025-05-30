@@ -1,104 +1,90 @@
-// src/app/layout.tsx
+// src/app/funcionarios/page.tsx
 'use client'
 
-import { useState, useEffect } from 'react'
-import { Inter } from 'next/font/google'
+import { useState, useEffect, useCallback } from 'react' // Adicionado useCallback
+import FuncionariosTable from '@/components/Funcionarios/FuncionariosTable'
+import FuncionarioForm from '@/components/Funcionarios/FuncionarioForm' // Importa o formulário
 
-// ... (CDN links ou imports NPM, conforme sua escolha)
-// Se CDN, mantenha os <link> no <head>
-// Se NPM, mantenha os imports:
-// import 'bootstrap/dist/css/bootstrap.min.css';
-// import 'bootstrap-icons/font/bootstrap-icons.css';
+// Reutilizando a interface
+interface Funcionario {
+  /* ... (interface Funcionario como definida antes) ... */
+}
 
-import './globals.css'
-import layoutStyles from './layout.module.css'
+export default function FuncionariosPage() {
+  const [funcionarios, setFuncionarios] = useState<Funcionario[]>([])
+  const [isLoading, setIsLoading] = useState(true)
+  const [error, setError] = useState<string | null>(null)
+  const [showForm, setShowForm] = useState(false) // Novo estado para controlar visibilidade do form
 
-import Sidebar from '@/components/Sidebar/Sidebar'
-import MobileHeader from '@/components/MobileHeader/MobileHeader'
-
-const inter = Inter({ subsets: ['latin'] })
-
-export default function RootLayout({
-  children,
-}: Readonly<{
-  children: React.ReactNode
-}>) {
-  const [isMobileSidebarOpen, setIsMobileSidebarOpen] = useState(false)
-  const [isMobileView, setIsMobileView] = useState(false)
-  const [isMounted, setIsMounted] = useState(false) // Novo estado
-
-  useEffect(() => {
-    setIsMounted(true) // Define como montado assim que o componente carrega no cliente
-
-    const handleResize = () => {
-      const mobileCheck = window.innerWidth < 768
-      setIsMobileView(mobileCheck)
-      if (!mobileCheck) {
-        setIsMobileSidebarOpen(false)
+  // Função para buscar os funcionários da API (envolvida em useCallback)
+  const fetchFuncionarios = useCallback(async () => {
+    setIsLoading(true)
+    setError(null)
+    try {
+      const response = await fetch('http://localhost:3001/api/funcionarios')
+      if (!response.ok) {
+        const errorData = await response.json()
+        throw new Error(errorData.message || `HTTP error! status: ${response.status}`)
       }
+      const data = await response.json()
+      setFuncionarios(data)
+    } catch (e: any) {
+      console.error('Falha ao buscar funcionários:', e)
+      setError(
+        `Falha ao carregar funcionários: ${e.message}. Verifique se o servidor backend está rodando.`
+      )
+    } finally {
+      setIsLoading(false)
     }
-    handleResize() // Chama na montagem
-    window.addEventListener('resize', handleResize)
-    return () => window.removeEventListener('resize', handleResize)
-  }, []) // Array de dependências vazio
+  }, []) // useCallback para evitar recriação desnecessária da função
 
-  const toggleMobileSidebar = () => {
-    setIsMobileSidebarOpen(!isMobileSidebarOpen)
+  // useEffect para buscar os dados quando o componente montar
+  useEffect(() => {
+    fetchFuncionarios()
+  }, [fetchFuncionarios]) // Adiciona fetchFuncionarios como dependência
+
+  const handleAddClick = () => {
+    setShowForm(true) // Mostra o formulário
   }
 
-  // Evita renderizar a UI que depende do window até que esteja montado no cliente
-  // Isso previne que o servidor renderize algo que o cliente renderizaria diferente inicialmente
-  if (!isMounted) {
-    // Você pode retornar um loader simples ou null, mas para o layout raiz,
-    // é melhor renderizar uma estrutura mínima ou a mesma estrutura que o servidor renderizaria
-    // com os estados iniciais. Vamos tentar garantir que os estados iniciais causem o mesmo render.
-    // A lógica principal aqui é que isMobileView será 'false' no servidor e no primeiro render do cliente
-    // ANTES do useEffect. O useEffect então o corrige.
-    // A chave é que o *HTML estrutural* não mude drasticamente.
-    // A diferença no 'className' do Sidebar já é um problema se a estrutura de classes for diferente.
-    // Por agora, o isMounted pode ajudar mais com o backdrop e o paddingTop.
+  const handleFormClose = () => {
+    setShowForm(false) // Esconde o formulário
+  }
+
+  const handleFuncionarioAdicionado = () => {
+    setShowForm(false) // Esconde o formulário
+    fetchFuncionarios() // Recarrega a lista de funcionários
   }
 
   return (
-    <html lang="pt-BR">
-      <head>
-        {/* ... (seu conteúdo do head com meta tags, title, e links CDN se estiver usando) ... */}
-        <meta charSet="utf-8" />
-        <meta name="viewport" content="width=device-width, initial-scale=1" />
-        <title>PosturAves - Gestão Avícola</title>
-        <meta
-          name="description"
-          content="Sistema de Gerenciamento para Granja de Postura Avícola PosturAves"
-        />
-        {/* Seus links CDN para Bootstrap e Bootstrap Icons aqui, SE você estiver usando CDN */}
-        {/* Exemplo:
-        <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossOrigin="anonymous" />
-        <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.css" rel="stylesheet" />
-        */}
-      </head>
-      <body className={inter.className}>
-        {isMounted && <MobileHeader toggleSidebar={toggleMobileSidebar} />}{' '}
-        {/* Renderiza apenas no cliente */}
-        {/* Para o Sidebar, o isMobileSidebarOpen (false inicialmente) e isMobileView (false inicialmente)
-            já devem produzir uma saída consistente no servidor e no primeiro render do cliente.
-            O problema do className={null} é o mais crítico a ser resolvido no Sidebar.tsx.
-        */}
-        <Sidebar
-          isMobileSidebarOpen={isMobileSidebarOpen}
-          toggleMobileSidebar={isMounted && isMobileView ? toggleMobileSidebar : undefined}
-        />
-        <main
-          className={layoutStyles.mainContent}
-          style={{
-            paddingTop: isMounted && isMobileView ? '65px' : '15px',
-          }}
-        >
-          {children}
-        </main>
-        {isMounted && isMobileView && isMobileSidebarOpen && (
-          <div className={layoutStyles.backdrop} onClick={toggleMobileSidebar}></div>
-        )}
-      </body>
-    </html>
+    <div className="container-fluid">
+      <div className="d-flex justify-content-between align-items-center mb-3">
+        <h2 className="mb-0 fs-4">Cadastro de Funcionários</h2> {/* Ajustado tamanho do título */}
+        <div>
+          {/* Placeholder para o filtro */}
+          <input
+            type="text"
+            className="form-control form-control-sm d-inline-block me-2"
+            style={{ width: '200px' }}
+            placeholder="Filtrar..."
+            disabled // Desabilitado por enquanto
+          />
+          <button className="btn btn-primary btn-sm" onClick={handleAddClick} disabled={showForm}>
+            <i className="bi bi-plus-circle me-1"></i>
+            {showForm ? 'Adicionando...' : 'Adicionar Funcionário'}
+          </button>
+        </div>
+      </div>
+
+      {/* Seção do Formulário - renderizado condicionalmente */}
+      {showForm && (
+        <FuncionarioForm onFormSubmit={handleFuncionarioAdicionado} onCancel={handleFormClose} />
+      )}
+
+      {/* Exibição da Tabela de Funcionários */}
+      {isLoading && <p className="text-center mt-4">Carregando funcionários...</p>}
+      {error && <div className="alert alert-danger mt-4">{error}</div>}
+      {!isLoading && !error && <FuncionariosTable funcionarios={funcionarios} />}
+    </div>
   )
 }
