@@ -2,7 +2,7 @@
 'use client'
 
 import { useState, useEffect } from 'react'
-import { Inter } from 'next/font/google'
+import { Roboto } from 'next/font/google'
 
 // Seus imports de CSS (globals e modules)
 import './globals.css'
@@ -12,7 +12,12 @@ import layoutStyles from './layout.module.css'
 import Sidebar from '@/components/Sidebar/Sidebar'
 import MobileHeader from '@/components/MobileHeader/MobileHeader'
 
-const inter = Inter({ subsets: ['latin'] })
+const roboto = Roboto({
+  weight: ['300', '400', '500', '700'], // Pesos que você pode querer usar (ex: light, normal, medium, bold)
+  style: ['normal', 'italic'], // Estilos (opcional)
+  subsets: ['latin'], // Subconjunto de caracteres
+  display: 'swap', // Melhora a performance de carregamento da fonte
+})
 
 export default function RootLayout({
   children,
@@ -85,7 +90,7 @@ export default function RootLayout({
           rel="stylesheet"
         />
       </head>
-      <body className={inter.className}>
+      <body className={roboto.className}>
         {/* Renderiza o MobileHeader. Ele já tem lógica d-md-none, então é seguro renderizar. */}
         <MobileHeader toggleSidebar={toggleMobileSidebar} />
 

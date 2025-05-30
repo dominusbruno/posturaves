@@ -1,8 +1,10 @@
 // src/components/Sidebar/Sidebar.tsx
+import Image from 'next/image' // <<< NOVO: Importar o componente Image
 import Link from 'next/link'
 import styles from './Sidebar.module.css'
 
 const menuItems = [
+  // A lista de menuItems continua a mesma
   { name: 'Painel Principal', path: '/', icon: 'bi-house-door-fill' },
   { name: 'Galinheiros', path: '/galinheiros', icon: 'bi-grid-3x3-gap-fill' },
   { name: 'Lotes', path: '/lotes', icon: 'bi-stack' },
@@ -35,20 +37,26 @@ const Sidebar: React.FC<SidebarProps> = ({ isMobileSidebarOpen, toggleMobileSide
         ${isMobileSidebarOpen ? styles.sidebarIsOpenForMobile : styles.sidebarIsClosedForMobile}
       `}
     >
+      {/* Header do Sidebar (Logo/Nome) */}
       <div className={`${styles.sidebarHeader} text-center`}>
-        {' '}
-        {/* py-x foi para o .module.css */}
-        <h1 className="fs-5 mb-0">
-          {' '}
-          {/* Sem espaços aqui */}
-          <span style={{ color: '#FFD700' }}>Postur</span>
-          <span style={{ color: '#FFFFFF' }}>Aves</span>
-        </h1>
+        {/* Container Flex para alinhar logo e texto */}
+        <div className="d-flex align-items-center justify-content-center">
+          <Image
+            src="/img/icon-logo.svg" // Caminho a partir da pasta 'public'
+            alt="Logo PosturAves"
+            width={32} // Largura da logo em pixels (ajuste conforme necessário)
+            height={32} // Altura da logo em pixels (ajuste conforme necessário)
+            className="me-2" // Margem à direita para separar do texto
+          />
+          <h1 className="fs-5 mb-0">
+            <span className="logoTextPostur">Postur</span>
+            <span className="logoTextAves">Aves</span>
+          </h1>
+        </div>
       </div>
 
+      {/* Itens de Menu */}
       <nav className="nav flex-column flex-grow-1 px-2 mt-2">
-        {' '}
-        {/* Sem espaços aqui */}
         {menuItems.map((item) => (
           <Link
             key={item.name}
@@ -56,22 +64,20 @@ const Sidebar: React.FC<SidebarProps> = ({ isMobileSidebarOpen, toggleMobileSide
             className={`${styles.navLink} nav-link d-flex align-items-center`}
             onClick={toggleMobileSidebar}
           >
-            {item.icon && <i className={`bi ${item.icon} me-2 fs-6`}></i>}{' '}
-            {/* Sem espaço aqui ao lado do ícone se não houver texto */}
+            {item.icon && <i className={`bi ${item.icon} me-2 fs-6`}></i>}
             {item.name}
           </Link>
         ))}
       </nav>
 
+      {/* Footer do Sidebar (Link do Perfil) */}
       <div className={`${styles.sidebarFooter} text-center mt-auto`}>
-        {' '}
-        {/* Sem espaços aqui */}
         <Link
           href="/perfil"
           className={`${styles.navLink} nav-link d-flex align-items-center justify-content-center`}
           onClick={toggleMobileSidebar}
         >
-          <i className="bi bi-person-circle me-2 fs-6"></i> {/* Sem espaço aqui */}
+          <i className="bi bi-person-circle me-2 fs-6"></i>
           Meu Perfil
         </Link>
       </div>

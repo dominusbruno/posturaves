@@ -7,9 +7,6 @@
       .fil0 {fill: black}
       .fil1 {
         fill: #ffffff;
-        stroke: #003F5C;
-        stroke-width: 45;
-        paint-order: stroke;
       }
       .fil2 {
         fill: #FBD307;

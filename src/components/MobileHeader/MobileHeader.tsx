@@ -1,9 +1,9 @@
 // src/components/MobileHeader/MobileHeader.tsx
+import Image from 'next/image' // <<< NOVO: Importar o componente Image
 import styles from './MobileHeader.module.css'
 
-// Definindo as propriedades que o componente MobileHeader espera receber
 interface MobileHeaderProps {
-  toggleSidebar: () => void // Função para alternar a visibilidade do sidebar
+  toggleSidebar: () => void
 }
 
 const MobileHeader: React.FC<MobileHeaderProps> = ({ toggleSidebar }) => {
@@ -11,21 +11,32 @@ const MobileHeader: React.FC<MobileHeaderProps> = ({ toggleSidebar }) => {
     <header
       className={`${styles.mobileHeader} bg-dark text-white d-flex d-md-none align-items-center px-3`}
     >
+      {/* Botão Hambúrguer */}
       <button
-        className="btn btn-dark p-1 me-2" /* Reduzido padding e margem */
+        className="btn btn-dark p-1 me-2"
         type="button"
         onClick={toggleSidebar}
         aria-label="Alternar navegação"
       >
-        <i className="bi bi-list fs-5"></i> {/* Reduzido de fs-4 para fs-5 */}
+        <i className="bi bi-list fs-5"></i>
       </button>
-      {/* fs-6 é o menor tamanho de heading do Bootstrap */}
-      <h1 className="fs-6 mb-0">
+
+      {/* Logo e Nome do sistema no header mobile */}
+      <div className="d-flex align-items-center">
         {' '}
-        {/* Alterado de fs-5 para fs-6 */}
-        <span style={{ color: '#FFD700' }}>Postur</span>
-        <span style={{ color: '#FFFFFF' }}>Aves</span>
-      </h1>
+        {/* Container Flex para alinhar logo e texto */}
+        <Image
+          src="/img/icon-logo.svg" // Caminho a partir da pasta 'public'
+          alt="Logo PosturAves"
+          width={24} // Largura da logo (um pouco menor para o header mobile)
+          height={24} // Altura da logo
+          className="me-2" // Margem à direita
+        />
+        <h1 className="fs-6 mb-0">
+          <span className="logoTextPostur">Postur</span>
+          <span className="logoTextAves">Aves</span>
+        </h1>
+      </div>
     </header>
   )
 }
