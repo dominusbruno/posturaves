@@ -3,7 +3,7 @@ Vamos criar um sistema PWA/SPA para controle de gestão de uma avícola de postu
 
 Também vamos criar um arquivo de configuração de variáveis do sistema.
 
-Utilizaremos NextJS/NopdeJS/MongoDB
+Utilizaremos NextJS/NodeJS/MongoDB
 
 Por onde você sugere começarmos. Vamos configurar o vscode e depois fazer a configuração do servidor e testar?
 

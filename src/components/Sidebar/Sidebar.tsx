@@ -8,7 +8,7 @@ const menuItems = [
   { name: 'Painel Principal', path: '/', icon: 'bi-house-door-fill' },
   { name: 'Galinheiros', path: '/galinheiros', icon: 'bi-grid-3x3-gap-fill' },
   { name: 'Lotes', path: '/lotes', icon: 'bi-stack' },
-  { name: 'Funcionários', path: '/funcionarios', icon: 'bi-people-fill' },
+  { name: 'Funcionários', path: '/funcionarios', icon: 'bi-person-lines-fill' },
   { name: 'Fornecedores', path: '/fornecedores', icon: 'bi-truck' },
   { name: 'Produtos (Granja)', path: '/produtos-granja', icon: 'bi-egg-fried' },
   { name: 'Calendário/Agenda', path: '/agenda', icon: 'bi-calendar-event-fill' },

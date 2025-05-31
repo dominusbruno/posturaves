@@ -1,0 +1,45 @@
+/* Color Theme Swatches in Hex */
+
+/* --- Estilo para o Card Principal --- */
+.cardCustom {
+  transition: box-shadow 0.2s ease-in-out, transform 0.2s ease-in-out;
+  border-radius: 0.5rem; /* Valor atual que definimos */
+}
+
+.cardCustom:hover {
+  box-shadow: 0 8px 16px rgba(0, 0, 0, 0.1); /* Valor atual que definimos */
+
+  /* Eleva o card levemente ao passar o mouse */
+  transform: translateY(-4px); /* Valor atual que definimos */
+}
+
+/* --- Estilo para o Cabeçalho do Card --- */
+.cardHeaderCustom {
+  background-color: #c7ddff !important;
+  border-top-left-radius: calc(0.5rem - 1px); /* (valor do card-radius - largura da borda) */
+  border-top-right-radius: calc(0.5rem - 1px); /* (valor do card-radius - largura da borda) */
+}
+
+.cardHeaderText {
+  /* Tamanho da fonte do título (Bootstrap .card-title usa .fs-5 por padrão) */
+  font-size: 1rem; /* Correspondente ao fs-5 */
+  font-weight: 500; /* Nosso peso customizado (médio) */
+}
+
+/* Estilo para os Rótulos de Informação (ex: "Cargo:", "CPF:") */
+.infoLabel {
+  color: var(--azulado); /* Nosso cinza escuro customizado */
+  font-weight: 500; /* Nosso semi-negrito customizado */
+  font-size: small;
+
+  /* Margem à direita do rótulo (para separar do valor) */
+  margin-right: 0.25rem;
+}
+
+.infoValue {
+  color: var(--azulado);
+  font-size: small;
+}
+
+.editButton {
+}

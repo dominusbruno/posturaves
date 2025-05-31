@@ -1,0 +1,14 @@
+/* src/components/Funcionarios/FuncionarioForm.module.css */
+
+.formHeaderTitle {
+  /* Altere este valor para o tamanho de fonte desejado para o título do formulário */
+  /*font-size: 1.1rem;*/
+
+  /* Você também pode ajustar outros estilos aqui, se quiser: */
+  /* font-weight: 600; */ /* Ex: para negrito médio */
+  /* color: #333; */ /* Ex: para uma cor específica */
+  /* margin-bottom: 0; */ /* Já temos mb-0 no JSX, mas poderia ser controlado aqui */
+}
+
+/* Você pode adicionar outras classes aqui no futuro para estilizar
+   outras partes do formulário, como os labels, inputs, etc. */

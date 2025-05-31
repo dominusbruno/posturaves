@@ -71,7 +71,7 @@ export default function RootLayout({
       <head>
         <meta charSet="utf-8" />
         <meta name="viewport" content="width=device-width, initial-scale=1" />
-        <title>PosturAves - Gestão Avícola</title>
+        <title>PosturAves - Controle e Gestão Avícola</title>
         <meta
           name="description"
           content="Sistema de Gerenciamento para Granja de Postura Avícola PosturAves"

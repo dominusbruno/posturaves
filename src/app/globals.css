@@ -1,25 +1,57 @@
 /* src/app/globals.css */
 :root {
-  /* Reduz o tamanho da fonte base do corpo do Bootstrap. O padrão é 1rem. */
-  --bs-body-font-size: 0.875rem; /* Isso equivale a 14px se a base do navegador for 16px */
-
-  /* Podemos também ajustar a altura da linha base, se necessário */
-  --bs-body-line-height: 1.4;
-
-  /* Reduzindo o padding padrão de alguns componentes Bootstrap globalmente (opcional) */
-  /* --bs-card-spacer-y: 0.8rem; /* Padrão é 1rem */
-  /* --bs-card-spacer-x: 0.8rem; /* Padrão é 1rem */
-  /* --bs-nav-link-padding-y: 0.4rem; /* Padrão é 0.5rem */
-}
-
-body {
-  margin: 0;
+  --azulceu1: #000000;
+  --azulceu2: #0071bd;
+  --azulesverdiado1: #274754;
+  --azulesverdiado2: #46849c;
+  --esverdiado1: #17a2b8;
+  --esverdiado2: #1592a5;
+  --esverdiado3: #106e7c;
+  --amarelado1: #fcecc4;
+  --amarelado2: #ffd774;
+  --laranjado1: #f4a261;
+  --laranjado2: #e76f51;
+  --acinzentado1: #dddddd;
+  --acinzentado2: #b3b3b3;
 }
 
 .logoTextPostur {
-  color: #51b1ff; /* Cor azul claro exemplo para "Postur" */
+  color: #0099ff; /* Cor azul claro exemplo para "Postur" */
 }
 
 .logoTextAves {
-  color: #ffcc6c; /* Cor branca/cinza claro exemplo para "Aves" */
+  color: var(--amarelado2);
+}
+
+/* Formulários */
+.form-label-sm,
+.col-form-label-sm {
+  font-size: small; /* Tamanho do texto label do input */
+  margin-bottom: 0rem !important; /* Afastamento entre o label e o input */
+  text-transform: uppercase !important;
+  font-weight: 500;
+}
+
+.add-funcionario-btn {
+  width: 32px;
+  height: 32px;
+  padding: 0; /* REMOVIDO padding original, para o flex ter controle total */
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  /* line-height: 1; /* REMOVIDO ou pode manter se preferir */
+}
+
+@media (min-width: 768px) {
+  .add-funcionario-btn {
+    width: auto;
+    height: auto;
+    padding: 0.25rem 0.5rem; /* Padding padrão do btn-sm do Bootstrap para desktop */
+  }
+}
+
+/* Espaçamento interno dos cards*/
+.card {
+  --bs-card-spacer-y: 0.5rem !important;
+  --bs-card-spacer-x: 0.5rem !important;
 }
